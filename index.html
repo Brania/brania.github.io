@@ -350,8 +350,7 @@
 <p>通过docker ps 可以看到我们创建的新的容器已经在运行。</p>
 <p>这里还存在一个没有解决的问题：通过<strong>docker start CONTAINERID</strong>启动容器后发现apache没有启动，需要通过<strong>docker attach CONTAINERID</strong>进入容器手动通过命令启动，</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service apache2 start</div></pre></td></tr></table></figure>
-<p>待解决的问题：</p>
-<ol>
+<h3 id="待解决的问题"><a href="#待解决的问题" class="headerlink" title="待解决的问题"></a>待解决的问题</h3><ol>
 <li>容器启动后apache没有自动启动；</li>
 <li>容器中没有安装数据库，暂时只能通过外网IP连接（考虑使用link的方式实现容器与容器之间的通信）；</li>
 </ol>
