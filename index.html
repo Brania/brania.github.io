@@ -336,7 +336,7 @@
 </ol>
 <figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span> -t -i ubuntu:12.04 /bin/bash</div></pre></td></tr></table></figure>
 <p>进入容器里安装apache2和php，安装命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">apt-get update</div><div class="line">apt-get install apache2</div><div class="line">apt-get install libapache2-mod-php5 php5</div><div class="line">apt-get install php5-gd php5-mysql</div><div class="line">/etc/init.d/apache2 restart /*重启apache*/</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">apt-get update</div><div class="line">apt-get install apache2</div><div class="line">apt-get install libapache2-mod-php5 php5</div><div class="line">apt-get install php5-gd php5-mysql</div><div class="line">apt-get install php5-mcrypt php5-curl</div><div class="line">/etc/init.d/apache2 restart /*重启apache*/</div></pre></td></tr></table></figure>
 <ol>
 <li>安装完php和apache2后，保存容器，生成镜像</li>
 </ol>
