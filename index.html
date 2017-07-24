@@ -323,40 +323,16 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>繁杂的事情太多，很多比较冷门的事情容易忘记。</p>
 </blockquote>
-<h1 id="1-写日志"><a href="#1-写日志" class="headerlink" title="1. 写日志"></a>1. 写日志</h1><ul>
-<li>进入Hexo目录</li>
-<li>执行hexo new title </li>
-</ul>
-<p>创建一个新的日志文件，采用配置文件中的默认布局方式。</p>
-<ul>
-<li>写完执行 hexo g -d</li>
-</ul>
-<h1 id="2-本地服务"><a href="#2-本地服务" class="headerlink" title="2. 本地服务"></a>2. 本地服务</h1><h2 id="2-1-Apache"><a href="#2-1-Apache" class="headerlink" title="2.1 Apache"></a>2.1 Apache</h2><ul>
-<li>查看apache版本 </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ httpd -v</div></pre></td></tr></table></figure>
-<ul>
-<li>启动、停止Apache</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apachectl start / stop</div></pre></td></tr></table></figure>
-<ul>
-<li>ROOT目录</li>
-</ul>
-<p>/Library/WebServer/Documents</p>
-<h1 id="3-命令"><a href="#3-命令" class="headerlink" title="3. 命令"></a>3. 命令</h1><ul>
-<li>查看Mac中所有端口开放情况</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ netstat -anp tcp</div></pre></td></tr></table></figure>
-<ul>
-<li>查看指定端口占用情况</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ lsof -i tcp:8888</div></pre></td></tr></table></figure>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/15/备忘录/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -599,39 +575,16 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>背景：传统企业中已经有相当一部分企业意识到互联网营销的重要性，期望借助于互联网让自己的产品方便、高效、快捷的展示给潜在客户。我们针对这部分做了很多年传统企业还没完全从线上转到线上的用户，或是想尝试一下互联网营销的客户给出了门户+CMS的解决方案。</p>
 </blockquote>
-<h3 id="使用Docker搭建PHP环境（PHP-apache2）"><a href="#使用Docker搭建PHP环境（PHP-apache2）" class="headerlink" title="使用Docker搭建PHP环境（PHP + apache2）"></a>使用Docker搭建PHP环境（PHP + apache2）</h3><ol>
-<li>拉取一个基础镜像</li>
-</ol>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull ubuntu:<span class="number">12.04</span></div></pre></td></tr></table></figure>
-<ol>
-<li>通过<strong>镜像</strong>创建一个容器，并进入bash</li>
-</ol>
-<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span> -t -i ubuntu:12.04 /bin/bash</div></pre></td></tr></table></figure>
-<p>进入容器里安装apache2和php，安装命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">apt-get update</div><div class="line">apt-get install apache2</div><div class="line">apt-get install libapache2-mod-php5 php5</div><div class="line">apt-get install php5-gd php5-mysql</div><div class="line">apt-get install php5-mcrypt php5-curl</div><div class="line">/etc/init.d/apache2 restart /*重启apache*/</div></pre></td></tr></table></figure>
-<ol>
-<li>安装完php和apache2后，保存容器，生成镜像</li>
-</ol>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker commit CONTAINERID php5</div></pre></td></tr></table></figure>
-<ol>
-<li>利用新的镜像，做端口映射和目录映射</li>
-</ol>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span> -d -t -i -v /Users/ch-hui/DevOps/4ucms/:/var/www/4ucms -p 8081:80 --name 4ucms php5 /bin/bash</div></pre></td></tr></table></figure>
-<p>这里-v代表目录映射，需要注意使用绝对路径，否则会出现如下错误信息：</p>
-<p><strong><em>includes invalid characters for a local volume name, only “[a-zA-Z0-9][a-zA-Z0-9_.-]” are allowed</em></strong></p>
-<p>通过docker ps 可以看到我们创建的新的容器已经在运行。</p>
-<p>这里还存在一个没有解决的问题：通过<strong>docker start CONTAINERID</strong>启动容器后发现apache没有启动，需要通过<strong>docker attach CONTAINERID</strong>进入容器手动通过命令启动，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service apache2 start</div></pre></td></tr></table></figure>
-<h3 id="待解决的问题"><a href="#待解决的问题" class="headerlink" title="待解决的问题"></a>待解决的问题</h3><ol>
-<li>容器启动后apache没有自动启动；</li>
-<li>容器中没有安装数据库，暂时只能通过外网IP连接（考虑使用link的方式实现容器与容器之间的通信）；</li>
-</ol>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/16/Docker简化部署CMS企业门户网站/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -749,104 +702,15 @@
 
       
         
-          
-            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。</p>
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。</p>
 <p>因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。</p>
-<h2 id="FunctionalInterface注解"><a href="#FunctionalInterface注解" class="headerlink" title="FunctionalInterface注解"></a>FunctionalInterface注解</h2><p>Java8的新引入，包含函数式的设计，接口都有<code>@FunctionalInterface</code>的注解。就像这个注解的注释说明一样，它注解在接口层面，且注解的接口要有且仅有一个抽象方法。具体就是说，注解在Inteface上，且interface里只能有一个抽象方法，可以有default方法。因为从语义上来讲，一个函数式接口需要通过一个<strong>逻辑上的</strong>方法表达一个单一函数。那理解这个单一就很重要了，单一不是说限制你一个interface里只有一个抽象方法，单是多个方法的其他方法需要是继承自Object的public方法，或者你要想绕过，就自己实现default。函数式接口自己本身一定是只有一个抽象方法。同时，如果是Object类的public方法，也是不允许的。官方的说明翻译如下：</p>
-<blockquote>
-<p>如果一个接口I，I有一组抽象方法集合M，且这些方法都不是Object类的public签名方法，那么如果存在一个M中的方法m，满足： </p>
-<ul>
-<li>m的签名是所有M中方法签名的子签名。 </li>
-<li>m对于M中的每个方法都是返回类型可替换的。<br>此时，接口I是一个函数式接口。</li>
-</ul>
-</blockquote>
-<p>怎么理解，看几个例子。</p>
-<p>比如：你声明一个接口：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyFun</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 接口所有方法全是抽象方法</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 函数式接口有且只有一个抽象方法，Object的public方法除外</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>看代码就能明白，函数式接口，有且仅有一个抽象方法，Object的public方法除外。</p>
-<p>因为Java本身支持多接口实现，你定义一个Class可以implements多个interface。所以这个限制也没什么影响，如果想约定一个函数式接口来统一，也可以做一些默认的实现来达到一个接口多个抽象方法的目的，比如下面这种做法：<br>一个普通接口NonFunc：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">NonFunc</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">voo</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>函数式接口Func：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Func</span> <span class="keyword">extends</span> <span class="title">NonFunc</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// do something</span></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">voo</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// do something</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实现的测试类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJ8FunctionalInterface</span> <span class="keyword">implements</span> <span class="title">Func</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Func func = <span class="keyword">new</span> TestJ8FunctionalInterface();</div><div class="line">        func.run();</div><div class="line">        func.foo();</div><div class="line">        func.voo();</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"run"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"foo"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">voo</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"voo"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后，Java8里关于函数式接口的包是<code>java.util.function</code>，里面全部是函数式接口。主要包含几大类：Function、Predicate、Supplier、Consumer和*Operator（没有Operator接口，只有类似BinaryOperator这样的接口）。后面依次展开详细说明一下。</p>
-<h3 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h3><p>其默认实现了3个default方法，分别是compose、andThen和identity，对应的函数表达为：compose对应，体现嵌套关系；andThen对应，转换了嵌套的顺序；还有identity对应了一个传递自身的函数调用对应。从这里看出来，compose和andThen对于两个函数f和g来说，<code>f.compose(g)</code>等价于<code>g.andThen(f)</code>。看个测试用例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFunction</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// f(x) = x + 1</span></div><div class="line">    Function&lt;Integer, Integer&gt; incr = x -&gt; x + <span class="number">1</span>;</div><div class="line">    <span class="comment">// g(x) = x * 2</span></div><div class="line">    Function&lt;Integer, Integer&gt; multiply = x -&gt; x * <span class="number">2</span>;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> count = <span class="number">2</span>;</div><div class="line"></div><div class="line"></div><div class="line">    log.info(<span class="string">"cal = &#123;&#125;"</span>, incr.apply(<span class="number">2</span>));</div><div class="line">    <span class="comment">// f(g(x))</span></div><div class="line">    log.info(<span class="string">"cal1 = &#123;&#125;"</span>, incr.compose(multiply).apply(count));</div><div class="line"></div><div class="line">    <span class="comment">// g(f(x))</span></div><div class="line">    log.info(<span class="string">"cal2 = &#123;&#125;"</span>, incr.andThen(multiply).apply(count));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h3><p>只是普通的lambda表达式，其能力有限。我们会希望引入更强大的函数能力——高阶函数，可以定义任意同类计算的函数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Function&lt;Integer, Function&lt;Integer, Integer&gt;&gt; makeAdder = z -&gt; y -&gt; z + y;</div></pre></td></tr></table></figure>
-<p>比如这个函数定义，参数是z，返回值是一个Function，这个Function本身又接受另一个参数y，返回z+y。于是我们可以根据这个函数，定义任意加法函数：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//high order function</span></div><div class="line">Function&lt;Integer, Function&lt;Integer, Integer&gt;&gt; makeAdder = z -&gt; y -&gt; z + y;</div><div class="line">x = <span class="number">2</span>;</div><div class="line"><span class="comment">//define add1</span></div><div class="line">Function&lt;Integer, Integer&gt; add1 = makeAdder.apply(<span class="number">1</span>);</div><div class="line">System.out.println(<span class="string">"f(x)=x+1,when x="</span> + x + <span class="string">", f(x)="</span> + add1.apply(x));</div><div class="line"><span class="comment">//define add5</span></div><div class="line">Function&lt;Integer, Integer&gt; add5 = makeAdder.apply(<span class="number">5</span>);</div><div class="line">System.out.println(<span class="string">"f(x)=x+5,when x="</span> + x + <span class="string">", f(x)="</span> + add5.apply(x));</div></pre></td></tr></table></figure>
-<p>由于高阶函数接受一个函数作为参数，结果返回另一个函数，所以是典型的<strong>函数到函数的映射</strong>。</p>
-<p>BiFunction提供了二元函数的一个接口声明，举例来说：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//binary function</span></div><div class="line">        BiFunction&lt;Integer, Integer, Integer&gt; multiply = (a, b) -&gt; a * b;</div><div class="line">        System.out.println(<span class="string">"f(z)=x*y, when x=3,y=5, then f(z)="</span> + multiply.apply(<span class="number">3</span>, <span class="number">5</span>));</div></pre></td></tr></table></figure>
-<h3 id="Operator"><a href="#Operator" class="headerlink" title="Operator"></a>Operator</h3><p>Operator其实就是Function，函数有时候也叫作算子。算子在Java8中接口描述更像是函数的补充，和上面的很多类型映射型函数类似。</p>
-<p>算子Operator包括：UnaryOperator和BinaryOperator。分别对应单元算子和二元算子。 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testOperator</span><span class="params">()</span> </span>&#123;</div><div class="line">    UnaryOperator&lt;Integer&gt; add = x -&gt; x + <span class="number">1</span>;</div><div class="line">    log.info(<span class="string">"cal = &#123;&#125;"</span>, add.apply(<span class="number">1</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>注意BinaryOperator提供了两个默认的static快捷实现，帮助实现二元函数min(x,y)和max(x,y)，使用时注意的是排序器可别传反了。</p>
-<h3 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a>Predicate</h3><p>predicate是一个谓词函数，主要作为一个谓词<strong>演算推导</strong>真假值存在，其意义在于帮助开发一些返回bool值的Function。本质上也是一个单元函数接口，其抽象方法test接受一个泛型参数T，返回一个boolean值。等价于一个Function的boolean型返回值的子集。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPredicate</span><span class="params">()</span> </span>&#123;</div><div class="line">    log.info(<span class="string">" predicate_1 = &#123;&#125;"</span>, <span class="keyword">this</span>.printBigValueAnd(<span class="number">10</span>, val -&gt; val &gt; <span class="number">5</span>));</div><div class="line">    log.info(<span class="string">" predicate_2 = &#123;&#125;"</span>, <span class="keyword">this</span>.printBigValueAnd(<span class="number">6</span>, val -&gt; val &gt; <span class="number">5</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> Boolean <span class="title">printBigValueAnd</span><span class="params">(<span class="keyword">int</span> value, Predicate&lt;Integer&gt; predicate)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (predicate.and(v -&gt; v &lt; <span class="number">8</span>).test(value)) &#123;</div><div class="line">        <span class="keyword">return</span> Boolean.TRUE;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> Boolean.FALSE;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其默认方法也封装了and、or和negate逻辑，上述测试用例演示了and用法。Predicate在Stream中有应用，Stream的filter方法就是接受Predicate作为入参的。这个具体在后面使用Stream的时候再分析深入。</p>
-<h3 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h3><p>看名字就可以想到，这像谓词函数接口一样，也是一个Function接口的特殊表达——接受一个泛型参数，<strong>不需要返回值的函数接口</strong>。这个接口声明太重要了，对于一些纯粹consume型的函数，没有Consumer的定义真无法被Function家族的函数接口表达。因为Function一定需要一个泛型参数作为返回值类型（当然不排除你使用Function来定义，但是一直返回一个无用的值）。比如下面的例子，如果没有Consumer，类似的行为使用Function表达就一定需要一个返回值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testConsumer</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">    Consumer&lt;Integer&gt; consumer = System.out::println;</div><div class="line">    consumer.accept(<span class="number">100</span>);</div><div class="line"></div><div class="line">    BiConsumer&lt;String, String&gt; biConsumer = (x, y) -&gt; &#123;</div><div class="line">        StringJoiner stringJoiner = <span class="keyword">new</span> StringJoiner(<span class="string">";"</span>);</div><div class="line">        stringJoiner.add(x).add(y);</div><div class="line">        log.info(<span class="string">"print = &#123;&#125;"</span>, stringJoiner.toString());</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    biConsumer.accept(<span class="string">"Hello"</span>, <span class="string">"World"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="Supplier"><a href="#Supplier" class="headerlink" title="Supplier"></a>Supplier</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Supplier</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Gets a result.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> a result</div><div class="line">     */</div><div class="line">    <span class="function">T <span class="title">get</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其简洁的声明，会让人以为不是函数。这个抽象方法的声明，同Consumer相反，是一个只声明了返回值，<strong>不需要参数的函数</strong>（这还叫函数？）。也就是说Supplier其实表达的不是从一个参数空间到结果空间的<strong>映射</strong>能力，而是表达一种<strong>生成</strong>能力，因为我们常见的场景中不止是要consume（Consumer）或者是简单的map（Function），还包括了new这个动作。而Supplier就表达了这种能力。</p>
-<p>比如你要是返回一个常量，那可以使用类似的做法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Supplier&lt;Integer&gt; supplier = () -&gt; <span class="number">1</span>;</div><div class="line">log.info(supplier.get());</div></pre></td></tr></table></figure>
-<p>这保证supplier对象输出的一直是1。<br>如果是要利用构造函数的能力呢？就可以这样：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Supplier&lt;TestJ8Supplier&gt; anotherSupplier;</div><div class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">           anotherSupplier = TestJ8Supplier::<span class="keyword">new</span>;</div><div class="line">           log.info(anotherSupplier.get());</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<p>这样的输出可以看到，全部的对象都是new出来的。</p>
-<p>总结：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>一元接口</th>
-<th>说明</th>
-<th>二元接口</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>一般函数</td>
-<td>Function</td>
-<td>一元函数，抽象apply方法</td>
-<td>BiFunction</td>
-<td>二元函数，抽象apply方法</td>
-</tr>
-<tr>
-<td>算子函数（输入输出同类型）</td>
-<td>UnaryOperator</td>
-<td>一元算子，抽象apply方法</td>
-<td>BinaryOperator</td>
-<td>二元算子，抽象apply方法</td>
-</tr>
-<tr>
-<td>谓词函数（输出boolean）</td>
-<td>Predicate</td>
-<td>一元谓词，抽象test方法</td>
-<td>BiPredicate</td>
-<td>二元谓词，抽象test方法</td>
-</tr>
-<tr>
-<td>消费者（无返回值）</td>
-<td>Consumer</td>
-<td>一元消费者函数，抽象accept方法</td>
-<td>BiConsumer</td>
-<td>二元消费者函数，抽象accept方法</td>
-</tr>
-<tr>
-<td>供应者（无参数，只有返回值）</td>
-<td>Supplier</td>
-<td>供应者函数，抽象get方法</td>
-<td>-</td>
-<td>-</td>
-</tr>
-</tbody>
-</table>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/11/8（一）——函数式接口/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

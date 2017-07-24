@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="引言目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。 因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。 FunctionalInterface注解Java8的新引入，包含函数式的设计，接口都有@Functio">
+<meta name="description" content="引言目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。 因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。">
 <meta name="keywords">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一起爪哇Java8（一）——函数式接口">
 <meta property="og:url" content="http://yoursite.com/2017/04/11/8（一）——函数式接口/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="引言目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。 因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。 FunctionalInterface注解Java8的新引入，包含函数式的设计，接口都有@Functio">
-<meta property="og:updated_time" content="2017-05-22T02:28:56.000Z">
+<meta property="og:description" content="引言目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。 因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。">
+<meta property="og:updated_time" content="2017-07-24T04:07:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一起爪哇Java8（一）——函数式接口">
-<meta name="twitter:description" content="引言目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。 因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。 FunctionalInterface注解Java8的新引入，包含函数式的设计，接口都有@Functio">
+<meta name="twitter:description" content="引言目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。 因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。">
 
 
 
@@ -334,6 +334,7 @@
       
         <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>目前由于系统已经全面切换为JDK8，所以有必要系统的了解一下Java8的一些新特性，以便后续在日常工作中可以使用一些高级特性来提高编程效率。</p>
 <p>因为Java8引入了函数式接口，在java.util.function包含了几大类函数式接口声明。这里第一篇主要研究一下Function相关的接口。</p>
+<a id="more"></a>
 <h2 id="FunctionalInterface注解"><a href="#FunctionalInterface注解" class="headerlink" title="FunctionalInterface注解"></a>FunctionalInterface注解</h2><p>Java8的新引入，包含函数式的设计，接口都有<code>@FunctionalInterface</code>的注解。就像这个注解的注释说明一样，它注解在接口层面，且注解的接口要有且仅有一个抽象方法。具体就是说，注解在Inteface上，且interface里只能有一个抽象方法，可以有default方法。因为从语义上来讲，一个函数式接口需要通过一个<strong>逻辑上的</strong>方法表达一个单一函数。那理解这个单一就很重要了，单一不是说限制你一个interface里只有一个抽象方法，单是多个方法的其他方法需要是继承自Object的public方法，或者你要想绕过，就自己实现default。函数式接口自己本身一定是只有一个抽象方法。同时，如果是Object类的public方法，也是不允许的。官方的说明翻译如下：</p>
 <blockquote>
 <p>如果一个接口I，I有一组抽象方法集合M，且这些方法都不是Object类的public签名方法，那么如果存在一个M中的方法m，满足： </p>
